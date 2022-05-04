@@ -5,7 +5,7 @@ import '../../dist/lib/counter/register.js';
 
 describe('cda-counter performance', () => {
   it(`should bundle and treeshake cds-counter`, async () => {
-    expect((await testBundleSize('./dist/lib/counter/register.js')).kb).to.below(19);
+    expect((await testBundleSize('./dist/lib/counter/register.js')).kb).to.below(20);
   });
 
   it('should render 100 cda-counter under 250ms', async () => {

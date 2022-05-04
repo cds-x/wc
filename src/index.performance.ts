@@ -11,6 +11,6 @@ describe('performance', () => {
     const module = `
       import './dist/lib/counter/register.js';
     `;
-    expect((await testBundleSize(module)).kb).to.below(19);
+    expect((await testBundleSize(module)).kb).to.below(20);
   });
 });

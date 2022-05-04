@@ -4,14 +4,14 @@ import './index.css';
 
 setCustomElements(pkg);
 
-export const parameters = {
-  viewMode: 'docs',
-  docs: {
-    transformSource: (_src, storyContext) => {
-      return storyContext.storyFn().strings;
-    },
-    source: {
-      type: 'dynamic'
-    }
-  }
-};
+// export const parameters = {
+//   viewMode: 'docs',
+//   docs: {
+//     transformSource: (_src, storyContext) => {
+//       return storyContext.storyFn().strings;
+//     },
+//     source: {
+//       type: 'dynamic'
+//     }
+//   }
+// };
