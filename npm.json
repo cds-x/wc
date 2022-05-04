@@ -1,0 +1,23 @@
+{
+  "name": "cds-x",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cds-x/wc"
+  },
+  "keywords": [
+    "web component", "clarity"
+  ],
+  "main": "./index.js",
+  "module": "./index.js",
+  "typings": "./index.d.ts",
+  "type": "module",
+  "files": ["*"],
+  "dependencies": {
+    "@cds/city": "^1.1.0",
+    "@cds/core": "^6.0.0",
+    "lit": "^2.0.0",
+    "modern-normalize": "^1.1.0"
+  }
+}
