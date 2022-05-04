@@ -20,6 +20,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
             'lib/custom-elements.json': '/dist/lib/custom-elements.json',
             'lib/global.min.css': '/dist/lib/global.min.css',
             'lib/counter/register.js': '/dist/lib/counter/register.js',
+            'lib/skiplink/register.js': '/dist/lib/skiplink/register.js',
           },
         },
       },

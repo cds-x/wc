@@ -42,7 +42,8 @@ const config = {
       './src/internal'
     ],
     components: [
-      './src/counter'
+      './src/counter',
+      './src/skiplink'
     ],
     styles: [
       './src/global.scss'

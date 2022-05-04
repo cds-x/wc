@@ -15,7 +15,7 @@
     "paths": {
       "lib": ["./dist/lib"],
       "lib/*": ["./dist/lib/*"],
-      "lib/*/register": ["./dist/lib/*/register"]
+      "lib/*/register": ["./dist/lib/*/register"],
     }
   }
 }
