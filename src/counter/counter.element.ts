@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators/property.js';
 import styles from './counter.element.scss';
 import { baseStyles } from '../internal';
@@ -13,7 +13,7 @@ export class CdaCounter extends LitElement {
     return [baseStyles, styles];
   }
 
-  @property({ type: Number }) value = 0;
+  @property({ type: Number}) value = 0;
 
   render() {
     return html`
@@ -41,6 +41,6 @@ export class CdaCounter extends LitElement {
   }
 
   private emit(value: string) {
-    this.dispatchEvent(new CustomEvent(value));
+    this.dispatchEvent(new CustomEvent('cdaValueChange', {detail: value}));
   }
 }
