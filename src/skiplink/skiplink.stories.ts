@@ -14,6 +14,11 @@ export default {
 
 export const basic = () => {
   return html`
-    <cdx-skiplink></cdx-skiplink>
+    <cdx-skiplink target="content">I am Skiplink</cdx-skiplink>
+    <p>Hello</p>
+    <p>Goodbye</p>
+    <main id="content">
+      I am the main content.
+    </main>
   `;
 }
