@@ -3,6 +3,8 @@ import { property } from 'lit/decorators/property.js';
 import { query } from 'lit/decorators/query.js';
 import { baseStyles } from '../internal';
 import styles from './skiplink.element.scss';
+import '@cds/core/dropdown/register.js';
+import { CdsDropdown } from '@cds/core/dropdown';
 
 /**
  * @element cdx-skiplink
@@ -12,62 +14,71 @@ export class CdxSkiplink extends LitElement {
     return [baseStyles, styles];
   }
 
-  @property({type: String})
+  @property({ type: String })
   parent?: string;
 
-  @property({type: String})
+  @property({ type: String })
   target!: string;
+
+  targetElement!: HTMLElement;
 
   @query('#skiplink')
   skiplink!: HTMLAnchorElement;
+
+  @query('#skiplink-anchor')
+  anchor!: HTMLAnchorElement;
+
+  @query('#skip-dropdown')
+  dropdown!: CdsDropdown;
 
   connectedCallback() {
     super.connectedCallback();
   }
 
   firstUpdated() {
-    this.parentNode?.removeChild(this);
-    const body = document.querySelector('body');
-    body?.prepend(this);
+    // Determine where to render to
+    let renderTo;
+    if (this.parent) {
+      renderTo = document.querySelector(`#${this.parent}`);
+    } else {
+      renderTo = document.querySelector('body');
+    }
 
-    this.addEventListener('focus', () => this.showLink());
-    this.addEventListener('blur', () => this.hideLink());
+    // Allow the target to be focusable
+    // TODO, clean up after yourself when this is destroyed
+    document.querySelector(`#${this.target}`)?.setAttribute('tabindex', '-1');
+
+    // Move the nodes
+    this.parentNode?.removeChild(this);
+    renderTo?.prepend(this)
+
+    // Handle the visibility stuff
+    this.skiplink.addEventListener('focus', () =>
+      this.skiplink.removeAttribute('cds-layout')
+    );
+    this.skiplink.addEventListener('focusout', () =>
+      this.skiplink.setAttribute('cds-layout', 'display:screen-reader-only')
+    );
   }
 
-  hideLink() {
-    this.skiplink.setAttribute('cds-layout', 'display:screen-reader-only');
+  updates() {
+    console.log('whats up danger? ');
   }
 
   render() {
     return html`
-      <a id="skiplink" cds-layout="display:screen-reader-only" href="${this.targetId()}">
+      <a
+        cds-first-focus
+        id="skiplink"
+        cds-layout="display:screen-reader-only"
+        href="${this.targetId()}"
+      >
         <slot></slot>
       </a>
     `;
-  }
-
-  showLink() {
-    this.skiplink.removeAttribute('cds-layout');
   }
 
   targetId(): string {
     return `#${this.target}`;
   }
 }
-
-/**
- * API Notes
- * <cds-skiplink target="main" parent="" mode="{link, bar}" position="left | center | right | bar">
- *   Skip to content
- * </cds-skiplink>
- * - must be placed in the right place of the DOM to work (first child(ren) of body element || first child of container element)
- * - must be hidden at all time
- * - attaches itself as first child of the body element (default)
- * - shows itself in 'correct position' when focused
- *   - top left (0,0)
- *   - top stretch (height is??)
- *   - top middle
- *   - top right
- * - has optional parent attribute that it can use as its root (instead of body)
- *
- */

@@ -120,7 +120,8 @@
   },
   "prettier": {
     "singleQuote": true,
-    "arrowParens": "avoid"
+    "arrowParens": "avoid",
+    "printWidth": 80
   },
   "husky": {
     "hooks": {
