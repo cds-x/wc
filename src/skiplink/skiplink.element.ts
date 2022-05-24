@@ -8,6 +8,8 @@ import '@cds/core/dropdown/register.js';
 import '@cds/core/dropdown/register.js';
 import { id } from '@cds/core/internal';
 
+type Nullable<T> = T | null | undefined;
+
 /**
  * @element cdx-skiplink
  */
@@ -43,6 +45,7 @@ export class CdxSkiplink extends LitElement {
     super.connectedCallback();
   }
 
+  private lastEvent?: Nullable<Event>;
   /**
    * popup="demo-signpost-basic"
    * the popup attribute needs to go on the 'trigger' e.g body or parent element
@@ -118,20 +121,24 @@ export class CdxSkiplink extends LitElement {
     console.log("what's up(date) danger? ");
   }
 
+  handleEvent(event: Nullable<Event>) {
+    // Handle the double event that gets generated.
+    if (this.lastEvent === undefined) {
+      this.lastEvent = event;
+    } else {
+      this.lastEvent = undefined;
+      return;
+    }
+    this.renderRoot
+      .querySelector(`#${this.popupId}`)!
+      .removeAttribute('hidden');
+  }
+
   // Why does focus event fire after the a element is clicked on first time?
   render() {
     return html`
-      <div>
-        <div
-          @focusout="${(event: Event) => {
-            event.stopPropagation();
-          }}"
-          @focusin="${() => {
-            this.renderRoot
-              .querySelector(`#${this.popupId}`)!
-              .removeAttribute('hidden');
-            console.log('focusin');
-          }}"
+      <div
+          @focus="${(event: Nullable<Event>) => this.handleEvent(event)}"
           popup="${this.popupId}"
           id="${this.anchorId}"
           tabindex="0"
