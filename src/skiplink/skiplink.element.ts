@@ -4,7 +4,9 @@ import { query } from 'lit/decorators/query.js';
 import { baseStyles } from '../internal';
 import styles from './skiplink.element.scss';
 import '@cds/core/dropdown/register.js';
-import { CdsDropdown } from '@cds/core/dropdown';
+// import { CdsDropdown } from '@cds/core/dropdown';
+import '@cds/core/dropdown/register.js';
+import { id } from '@cds/core/internal';
 
 /**
  * @element cdx-skiplink
@@ -14,6 +16,9 @@ export class CdxSkiplink extends LitElement {
     return [baseStyles, styles];
   }
 
+  closable = false;
+  defaultPointerType: string | null = null;
+
   @property({ type: String })
   parent?: string;
 
@@ -22,19 +27,29 @@ export class CdxSkiplink extends LitElement {
 
   targetElement!: HTMLElement;
 
-  @query('#skiplink')
-  skiplink!: HTMLAnchorElement;
+  // @query('#skiplink-anchor')
+  // anchor!: HTMLAnchorElement;
 
-  @query('#skiplink-anchor')
-  anchor!: HTMLAnchorElement;
+  // @query('#skip-dropdown')
+  // dropdown!: CdsDropdown;
 
-  @query('#skip-dropdown')
-  dropdown!: CdsDropdown;
+  @id()
+  popupId!: string;
+
+  @id()
+  anchorId!: string;
 
   connectedCallback() {
     super.connectedCallback();
   }
 
+  /**
+   * popup="demo-signpost-basic"
+   * the popup attribute needs to go on the 'trigger' e.g body or parent element
+   * that will orient the popup to the body/parent
+   * id="demo-signpost-basic"
+   * the id needs to go on the thing that is being shown e.g this
+   */
   firstUpdated() {
     // Determine where to render to
     let renderTo;
@@ -44,37 +59,100 @@ export class CdxSkiplink extends LitElement {
       renderTo = document.querySelector('body');
     }
 
+    // Need to add a hidden element so the popup has something to attach to
+    // with the popup="this.id" attribute
+    // const triggerDiv = document.createElement('section');
+    // triggerDiv.setAttribute('popup', this.anchorId);
+    // triggerDiv.setAttribute('id', this.popupId);
+    // triggerDiv.setAttribute('tabindex', '0');
+    // this.prepend(triggerDiv);
+
     // Allow the target to be focusable
     // TODO, clean up after yourself when this is destroyed
     document.querySelector(`#${this.target}`)?.setAttribute('tabindex', '-1');
 
     // Move the nodes
     this.parentNode?.removeChild(this);
-    renderTo?.prepend(this)
+    renderTo?.prepend(this);
 
-    // Handle the visibility stuff
-    this.skiplink.addEventListener('focus', () =>
-      this.skiplink.removeAttribute('cds-layout')
-    );
-    this.skiplink.addEventListener('focusout', () =>
-      this.skiplink.setAttribute('cds-layout', 'display:screen-reader-only')
-    );
+    // const skiplink = this.shadowRoot?.querySelector(`#${this.popupId}`);
+    // console.log('does it skip?', skiplink);
+    //Handle the visibility stuff
+    // const triggerDiv = this.renderRoot.querySelector(`#${this.anchorId}`);
+    // const triggerDiv = this.shadowRoot.querySelector(`#${this.popupId}`);
+    // triggerDiv!.addEventListener('focus', () => {
+    //   const dd = this.renderRoot.querySelector(`#${this.popupId}`);
+    //   dd!.removeAttribute('hidden');
+    //   console.log('focus yo', dd);
+    //   // skiplink!.removeAttribute('cds-layout');
+    // });
+
+    // const link = this.renderRoot.querySelector(`#${this.popupId} > a`);
+    // link!.addEventListener('click', (event: Event) => {
+    //   const dd = this.renderRoot.querySelector(`#${this.popupId}`);
+    //   dd!.setAttribute('hidden', '');
+    //   console.log('focus out yo', dd);
+    //   event.preventDefault();
+    // });
+    // triggerDiv!.addEventListener('focusout', () => {
+    //   const dd = this.renderRoot.querySelector(`#${this.popupId}`);
+    //   dd!.setAttribute('hidden', '');
+    //   console.log('focusout yo', dd);
+    //   // skiplink!.removeAttribute('cds-layout');
+    // });
+    // triggerDiv!.addEventListener('focusout', () => {
+    //   const dd = this.renderRoot.querySelector(`#${this.popupId}`);
+    //   console.log('dd: ', dd);
+    //   dd!.setAttribute('hidden', '');
+    //   console.log('focus out yo', dd);
+    // });
+    // const skiplink = this.renderRoot.querySelector(`[href="${this.targetId()}"]`)
+    // skiplink!.addEventListener( 'click', () => {
+    //   const dd = this.renderRoot.querySelector(`#${this.popupId}`);
+    //   dd!.setAttribute('hidden', '');
+    //   console.log('focus out yo', dd);
+    // });
   }
 
   updates() {
-    console.log('whats up danger? ');
+    console.log("what's up(date) danger? ");
   }
 
+  // Why does focus event fire after the a element is clicked on first time?
   render() {
     return html`
-      <a
-        cds-first-focus
-        id="skiplink"
-        cds-layout="display:screen-reader-only"
-        href="${this.targetId()}"
-      >
-        <slot></slot>
-      </a>
+      <div>
+        <div
+          @focusout="${(event: Event) => {
+            event.stopPropagation();
+          }}"
+          @focusin="${() => {
+            this.renderRoot
+              .querySelector(`#${this.popupId}`)!
+              .removeAttribute('hidden');
+            console.log('focusin');
+          }}"
+          popup="${this.popupId}"
+          id="${this.anchorId}"
+          tabindex="0"
+        ></div>
+      </div>
+      <cds-dropdown hidden id="${this.popupId}" anchor="${this.anchorId}">
+        <a
+          @click="${(event: Event) => {
+            console.log('anchor click');
+            this.renderRoot
+              .querySelector(`#${this.popupId}`)!
+              .setAttribute('hidden', '');
+            event.stopPropagation();
+          }}"
+          cds-first-focus
+          cds-layout=""
+          href="${this.targetId()}"
+        >
+          <slot></slot>
+        </a>
+      </cds-dropdown>
     `;
   }
 
