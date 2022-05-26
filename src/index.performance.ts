@@ -1,6 +1,6 @@
 import { expect} from '@open-wc/testing';
 import { testBundleSize } from 'web-test-runner-performance/browser.js';
-import '../dist/lib/counter/register.js';
+import '../dist/lib/skiplink/register.js';
 
 describe('performance', () => {
   it(`should meet maximum css bundle size limits`, async () => {
@@ -9,7 +9,7 @@ describe('performance', () => {
 
   it(`should bundle and treeshake all components`, async () => {
     const module = `
-      import './dist/lib/counter/register.js';
+      import './dist/lib/skiplink/register.js';
     `;
     expect((await testBundleSize(module)).kb).to.below(20);
   });

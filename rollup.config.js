@@ -43,7 +43,6 @@ const config = {
       './src/utils'
     ],
     components: [
-      './src/counter',
       './src/skiplink'
     ],
     styles: [

@@ -19,7 +19,6 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
             'lit/decorators/property.js': '/node_modules/lit/decorators/property.js',
             'lib/custom-elements.json': '/dist/lib/custom-elements.json',
             '@cdx/global.min.css': '/dist/lib/global.min.css',
-            '@cdx/counter/register.js': '/dist/lib/counter/register.js',
             '@cdx/skiplink/register.js': '/dist/lib/skiplink/register.js',
           },
         },
