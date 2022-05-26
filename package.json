@@ -8,7 +8,7 @@
   "module": "dist/index.js",
   "exports": {
     ".": "./dist/index.js",
-    "./cds-x.js": "./dist/CdsX.js"
+    "./skiplink": "./dist/skiplink/index.js"
   },
   "scripts": {
     "ci": "npm run build && npm run test",

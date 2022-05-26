@@ -11,6 +11,6 @@ describe('performance', () => {
     const module = `
       import './dist/lib/skiplink/register.js';
     `;
-    expect((await testBundleSize(module)).kb).to.below(20);
+    expect((await testBundleSize(module)).kb).to.below(33);
   });
 });

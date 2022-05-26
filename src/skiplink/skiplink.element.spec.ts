@@ -1,10 +1,11 @@
-import { expect } from '@esm-bundle/chai';
+import { expect } from '@open-wc/testing';
 
-function sum(n1, n2) {
+function sum(n1: number, n2: number) {
   return n1 + n2;
 }
 
 it('sums up 2 numbers', () => {
+  console.log('the sum is', sum(42, 42));
   expect(sum(1, 1)).to.equal(2);
   expect(sum(3, 12)).to.equal(15);
 });

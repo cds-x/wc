@@ -37,21 +37,41 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   /** Browsers to run tests on */
   browsers: [
     playwrightLauncher({ product: 'chromium' }),
-  //   playwrightLauncher({ product: 'firefox' }),
-  //   playwrightLauncher({ product: 'webkit' }),
+    //   playwrightLauncher({ product: 'firefox' }),
+    //   playwrightLauncher({ product: 'webkit' }),
   ],
+
+  coverageConfig: {
+    require: ['ts-node/register'],
+    extension: ['.ts'],
+    exclude: [
+      '**/*.d.ts',
+      '**/*.scss.js',
+      '**/node_modules/**',
+      '**/test/**',
+      '**/dist/core/**/index.js',
+      '**/dist/core/**/register.js',
+    ],
+    report: true,
+    reportDir: 'dist/coverage',
+    threshold: {
+      statements: 90,
+      branches: 85,
+      functions: 85,
+      lines: 90,
+    },
+  },
 
   // See documentation for all available options
   plugins: [
     ...baseConfig.plugins,
-    esbuildPlugin({ ts: true, json: true, target: 'auto' }),
+    esbuildPlugin({ ts: true, json: true, target: 'auto', sourceMap: true }),
     fromRollup(execute)({
       commands: [`tsc --noEmit src/**/*.spec.ts`],
       hook: 'writeBundle',
     }),
-  ]
+  ],
 });
-
 
 // /**
 //  * Web Test Runner
