@@ -15,9 +15,10 @@
     "rootDir": "./src",
     "outDir": "./dist/lib",
     "declaration": true,
+    "baseUrl": ".",
     "paths": {
-      "lib/*": ["./src/*"]
-    },
+      "@cdx/*": ["./src/*"]
+    }
   },
   "include": ["**/*.ts"]
 }

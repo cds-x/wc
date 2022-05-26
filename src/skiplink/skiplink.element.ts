@@ -1,16 +1,22 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators/property.js';
-import { query } from 'lit/decorators/query.js';
 import { baseStyles } from '../internal';
 import styles from './skiplink.element.scss';
 import '@cds/core/dropdown/register.js';
-// import { CdsDropdown } from '@cds/core/dropdown';
-import '@cds/core/dropdown/register.js';
 import { id, onKey } from '@cds/core/internal';
-
-type Nullable<T> = T | null | undefined;
+import { Nullable } from '@cdx/utils';
 
 /**
+ *  A skiplink provides an accessible way for keyboard users  to skip directly
+ *  to specific content.
+ *
+ * ```typescript
+ * import '@cdx/skiplink/register.js';
+ * ```
+ *
+ * ```html
+ * <cds-button>submit</cds-button>
+ * ```
  * @element cdx-skiplink
  */
 export class CdxSkiplink extends LitElement {
@@ -18,8 +24,11 @@ export class CdxSkiplink extends LitElement {
     return [baseStyles, styles];
   }
 
-  closable = false;
-  defaultPointerType: string | null = null;
+  @id()
+  anchorId!: string;
+
+  @id()
+  popupId!: string;
 
   @property({ type: String })
   parent?: string;
@@ -27,19 +36,34 @@ export class CdxSkiplink extends LitElement {
   @property({ type: String })
   target!: string;
 
-  targetElement!: HTMLElement;
+  private lastEvent?: Nullable<Event>;
 
-  // @query('#skiplink-anchor')
-  // anchor!: HTMLAnchorElement;
+  private handleEvent(event: Nullable<Event>) {
+    // Handle the double event that gets generated.
+    if (this.lastEvent === undefined) {
+      this.lastEvent = event;
+    } else {
+      this.lastEvent = undefined;
+      return;
+    }
+    this.showDropdown();
+  }
 
-  // @query('#skip-dropdown')
-  // dropdown!: CdsDropdown;
+  private hideDropdown() {
+    this.renderRoot
+      .querySelector(`#${this.popupId}`)!
+      .setAttribute('hidden', '');
+  }
 
-  @id()
-  popupId!: string;
+  private showDropdown() {
+    this.renderRoot
+      .querySelector(`#${this.popupId}`)!
+      .removeAttribute('hidden');
+  }
 
-  @id()
-  anchorId!: string;
+  private targetId(): string {
+    return `#${this.target}`;
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -62,35 +86,8 @@ export class CdxSkiplink extends LitElement {
     this.addEventListener('keydown', (event: KeyboardEvent) => {
       onKey('tab', event, () => this.hideDropdown());
     });
-
   }
 
-  private hideDropdown() {
-    this.renderRoot
-      .querySelector(`#${this.popupId}`)!
-      .setAttribute('hidden', '');
-  }
-
-  private showDropdown() {
-    this.renderRoot
-      .querySelector(`#${this.popupId}`)!
-      .removeAttribute('hidden');
-  }
-
-  private lastEvent?: Nullable<Event>;
-
-  handleEvent(event: Nullable<Event>) {
-    // Handle the double event that gets generated.
-    if (this.lastEvent === undefined) {
-      this.lastEvent = event;
-    } else {
-      this.lastEvent = undefined;
-      return;
-    }
-    this.showDropdown();
-  }
-
-  // Why does focus event fire after the a element is clicked on first time?
   render() {
     return html`
       <div
@@ -102,9 +99,7 @@ export class CdxSkiplink extends LitElement {
       </div>
       <cds-dropdown hidden id="${this.popupId}" anchor="${this.anchorId}">
         <a
-          @click="${(event: Event) => {
-            this.hideDropdown();
-          }}"
+          @click="${() => this.hideDropdown()}"
           cds-first-focus
           cds-layout=""
           href="${this.targetId()}"
@@ -113,9 +108,5 @@ export class CdxSkiplink extends LitElement {
         </a>
       </cds-dropdown>
     `;
-  }
-
-  targetId(): string {
-    return `#${this.target}`;
   }
 }

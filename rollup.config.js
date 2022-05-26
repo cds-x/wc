@@ -39,7 +39,8 @@ const config = {
   entryPoints: {
     modules: [
       './src',
-      './src/internal'
+      './src/internal',
+      './src/utils'
     ],
     components: [
       './src/counter',

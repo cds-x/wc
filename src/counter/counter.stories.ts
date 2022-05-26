@@ -4,7 +4,7 @@
  * The full license information can be found in LICENSE in the root directory of this project.
  */
 
-import 'lib/counter/register.js';
+import '@cdx/counter/register.js';
 import { html } from 'lit';
 import { CdaCounter } from './counter.element';
 

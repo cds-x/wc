@@ -30,7 +30,7 @@ module.exports = {
 
     config.plugins = [
       nodeResolve.default(),
-      alias({ entries: [{ find: 'lib', replacement: path.resolve(path.resolve(__dirname), './dist/lib') }] }),
+      alias({ entries: [{ find: '@cdx', replacement: path.resolve(path.resolve(__dirname), './dist/lib') }] }),
       image(),
       json(),
       styles(),

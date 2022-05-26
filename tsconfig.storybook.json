@@ -13,9 +13,9 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "lib": ["./dist/lib"],
-      "lib/*": ["./dist/lib/*"],
-      "lib/*/register": ["./dist/lib/*/register"],
+      "@cdx": ["./dist/lib"],
+      "@cdx/*": ["./dist/lib/*"],
+      "@cdx/*/register": ["./dist/lib/*/register"],
     }
   }
 }
