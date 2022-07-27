@@ -1,0 +1,74 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "cdx-skiplink",
+      "path": "./skiplink/register.d.ts",
+      "description": "A skiplink provides an accessible way for keyboard users  to skip directly\nto specific content.\n\n```typescript\nimport '@cdx/skiplink/register.js';\n```\n\n```html\n<cds-button>submit</cds-button>\n```",
+      "properties": [
+        {
+          "name": "anchorId",
+          "type": "string"
+        },
+        {
+          "name": "popupId",
+          "type": "string"
+        },
+        {
+          "name": "parent",
+          "type": "string | undefined"
+        },
+        {
+          "name": "target",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "cdx-skiplink",
+      "path": "./skiplink/register.js",
+      "description": "A skiplink provides an accessible way for keyboard users  to skip directly\nto specific content.\n\n```typescript\nimport '@cdx/skiplink/register.js';\n```\n\n```html\n<cds-button>submit</cds-button>\n```",
+      "properties": [
+        {
+          "name": "anchorId",
+          "type": "string"
+        },
+        {
+          "name": "popupId",
+          "type": "string"
+        },
+        {
+          "name": "parent",
+          "type": "string | undefined"
+        },
+        {
+          "name": "target",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "cdx-skiplink",
+      "path": "./skiplink/skiplink.element.d.ts",
+      "description": "A skiplink provides an accessible way for keyboard users  to skip directly\nto specific content.\n\n```typescript\nimport '@cdx/skiplink/register.js';\n```\n\n```html\n<cds-button>submit</cds-button>\n```",
+      "properties": [
+        {
+          "name": "anchorId",
+          "type": "string"
+        },
+        {
+          "name": "popupId",
+          "type": "string"
+        },
+        {
+          "name": "parent",
+          "type": "string | undefined"
+        },
+        {
+          "name": "target",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
